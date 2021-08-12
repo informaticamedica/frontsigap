@@ -1,0 +1,25 @@
+table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+table tbody {
+  display: table;
+  width: 100%;
+}
+
+.mat-row:hover {
+  background-color: #c7cceb;
+  cursor: pointer;
+}
+
+.mat-row {
+  text-align: left;
+}
+
+.mat-cell,
+.mat-header-cell {
+  padding: 0 1em;
+  /* min-width: 10%; */
+}
