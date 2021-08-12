@@ -1,0 +1,39 @@
+<mat-toolbar color="primary" class="header">
+    <button (click)="inicio()" mat-icon-button>
+        <mat-icon>home</mat-icon>
+    </button>
+    <span>SIGAP</span>
+    <span class="spacer"></span>
+    <span>{{ nombre() }}</span>
+    <button (click)="salir()" *ngIf="aut.loggedIn()" mat-icon-button>
+        <mat-icon>logout</mat-icon>
+    </button>
+
+</mat-toolbar>
+
+<!-- <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="false">
+        <mat-toolbar> Menu </mat-toolbar>
+        <mat-nav-list>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="primary" style="justify-content: space-between">
+            <div style="display: flex">
+                <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+                    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+                </button>
+                <a mat-list-item routerLink="principal" style="color: white">SIGAP</a>
+            </div>
+            <div>
+                {{ nombre() }} -
+                <button mat-button (click)="salir()" *ngIf="aut.loggedIn()">
+                    Salir
+                </button>
+            </div>
+        </mat-toolbar>
+
+        <ng-content #name></ng-content>
+    </mat-sidenav-content>
+</mat-sidenav-container> -->

@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-sm-8 offset-sm-2 col-lg-4 offset-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 text-primary"><strong>SIGAP</strong></div>
+          </div>
+          <div class="row">
+            <div class="col-12 text-primary">
+              <h3>Iniciar sesión</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h4 class="explicacion px-0">Utilizá tu clave única de PAMI</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <hr />
+            </div>
+          </div>
+          <form [formGroup]="formulario" class="row">
+            <div class="col-12">
+              <mat-form-field class="w-100">
+                <mat-label>Usuario</mat-label>
+                <input matInput formControlName="Username" autocomplete="off" />
+              </mat-form-field>
+            </div>
+            <div class="col-12">
+              <mat-form-field class="w-100">
+                <mat-label>Contraseña</mat-label>
+                <input matInput type="password" formControlName="Password" autocomplete="off" />
+              </mat-form-field>
+            </div>
+            <div class="form-group col-12 text-right">
+              <button (click)="ingresar()" [disabled]="!formulario.valid" class="btn btn-primary">
+                <ng-template [ngIf]="!ocupado">INGRESAR</ng-template>
+                <ng-template [ngIf]="ocupado">Ingresando...</ng-template>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

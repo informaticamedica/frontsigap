@@ -1,0 +1,36 @@
+.login-container {
+  margin-top: 80px;
+  height: 410px;
+  width: 455px;
+  border-radius: 2px;
+  border: 1px solid #E0E0E0;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
+
+  /*margin-left: 33%;*/
+  background-color: white;
+  font-family: 'Montserrat', sans-serif;
+  padding: 50px 40px 40px 40px;
+  float: none;
+  margin: 6% auto 0 auto;
+}
+
+.titulo-app {
+  font-size: 28px;
+}
+
+.titulo {
+  font-size: 22px;
+  font-weight: 400;
+  color: #424242;
+}
+
+.explicacion {
+  color: gray;
+  font-size: 15px;
+}
+
+.version-container {
+  margin-left: 35%;
+  padding: 20px;
+  color: gray;
+}

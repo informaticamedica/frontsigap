@@ -1,0 +1,62 @@
+.contenedor {
+  position: relative;
+}
+
+.hijo {
+  /* width: 50px;
+  height: 50px; */
+  /* background-color: red; */
+  /* centrar vertical y horizontalmente */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -25px 0 0 -25px; /* aplicar a top y al margen izquierdo un valor negativo para completar el centrado del elemento hijo */
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+mat-panel-title {
+  font-size: 1.1rem;
+  /* font-family: Roboto, Helvetica Neue, sans-serif; */
+}
+
+.spinner {
+  display: block;
+  position: fixed;
+  z-index: 1031; /* High z-index so it is on top of the page */
+  top: 50%;
+  right: 50%; /* or: left: 50%; */
+  margin-top: 50px; /* half of the elements height */
+  margin-right: 50px; /* half of the elements widht */
+}
+.spinner2 {
+  position: fixed;
+  z-index: 1031;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.7em 0 0.7em 0 !important;
+  top: -0.25em;
+}
+
+.style-success {
+  color: #6df374;
+  background-color: #6df374;
+}
+.style-success .mat-simple-snackbar-action {
+  color: #6df374;
+}
+.style-error {
+  color: #f3bd6d;
+}
+.style-error .mat-simple-snackbar-action {
+  color: #f3bd6d;
+}
+::ng-deep snack-bar-container simple-snack-bar .mat-simple-snackbar-action {
+  color: #69b34c;
+}
