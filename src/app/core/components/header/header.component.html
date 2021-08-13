@@ -1,8 +1,9 @@
 <mat-toolbar color="primary" class="header">
-    <button (click)="inicio()" mat-icon-button>
+    <!-- <button (click)="inicio()" mat-icon-button>
         <mat-icon>home</mat-icon>
-    </button>
-    <span>SIGAP</span>
+    </button> -->
+    <img (click)="inicio()" src="assets/icons/icon-72x72.png" class="logo mr-2 cursor-pointer"/>
+    <!-- <span>SIGAP</span> -->
     <span class="spacer"></span>
     <span>{{ nombre() }}</span>
     <button (click)="salir()" *ngIf="aut.loggedIn()" mat-icon-button>
