@@ -97,6 +97,16 @@
                 {{ item.iditem }} -
                 {{ item.descripcion }}
               </div>
+              <div class="col-2">
+                <button
+                  mat-button
+                  [disabled]="!completarGuia"
+                  *ngIf="item.componente == 'radio'"
+                  (click)="openDialog(inf.descripcion, item)"
+                >
+                  Observación
+                </button>
+              </div>
               <div class="col col-lg-2">
                 <mat-radio-group
                   *ngIf="item.componente == 'radio'"
