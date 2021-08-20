@@ -93,11 +93,11 @@
             [formGroupName]="ELPROBLEMA(item.iditem)"
           >
             <div class="row">
-              <div class="col">
+              <div class="col col-lg-10">
                 {{ item.iditem }} -
                 {{ item.descripcion }}
               </div>
-              <div class="col-2">
+              <!-- <div class="col-2">
                 <button
                   mat-button
                   [disabled]="!completarGuia"
@@ -106,7 +106,7 @@
                 >
                   Observación
                 </button>
-              </div>
+              </div> -->
               <div class="col col-lg-2">
                 <mat-radio-group
                   *ngIf="item.componente == 'radio'"
@@ -114,19 +114,31 @@
                   formControlName="Valor"
                 >
                   <!-- [disabled]="!completarGuia" -->
-                  <mat-radio-button
-                    *ngFor="let tipo of item.tipoEval"
-                    [value]="tipo.descripcion"
-                  >
-                    <!-- [value]="{
-                      iditem: item.iditem,
-                      valor: tipo.descripcion,
-                      descripcion: item.descripcion
-                    }" -->
 
-                    {{ tipo.descripcion }}
-                    &nbsp; &nbsp; &nbsp;
-                  </mat-radio-button>
+                  <!-- <div class="container"> -->
+                  <div class="row">
+                    <div
+                      class="col col-md-6"
+                      *ngFor="let tipo of item.tipoEval"
+                    >
+                      <mat-radio-button
+                        [value]="tipo.descripcion"
+                        *ngIf="tipo.idvalor == 2"
+                        (change)="openDialog(inf.descripcion, item)"
+                      >
+                        {{ tipo.descripcion }}
+                        &nbsp; &nbsp; &nbsp;
+                      </mat-radio-button>
+                      <mat-radio-button
+                        [value]="tipo.descripcion"
+                        *ngIf="tipo.idvalor == 1"
+                      >
+                        {{ tipo.descripcion }}
+                        &nbsp; &nbsp; &nbsp;
+                      </mat-radio-button>
+                    </div>
+                  </div>
+                  <!-- </div> -->
                 </mat-radio-group>
                 <div *ngIf="item.componente == 'input'">
                   <mat-form-field appearance="fill">
