@@ -23,6 +23,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   imports: [
@@ -50,6 +52,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDividerModule,
     MatTabsModule,
     MatDialogModule,
+    MatTreeModule,
+    MatChipsModule,
   ],
   exports: [
     MatSelectModule,
@@ -76,6 +80,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDividerModule,
     MatTabsModule,
     MatDialogModule,
+    MatTreeModule,
+    MatChipsModule,
   ],
 })
 export class MaterialModule {}

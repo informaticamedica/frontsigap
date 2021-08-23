@@ -1,5 +1,11 @@
-import {Component,Input,OnInit} from '@angular/core';
-import {FormControl,FormBuilder,FormGroup,Validators,FormArray} from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import {
+  FormControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormArray,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as Constantes from 'src/app/shared/utils/constantes';
@@ -12,7 +18,32 @@ import { DatosDbService } from 'src/app/api/services/datos.service';
 import { ModalCargandoService } from 'src/app/shared/services/modal-cargando.service';
 import { VerAuditoria } from 'src/app/api/dto/ver-auditoria.dto';
 import { PlanificarAuditoria } from 'src/app/api/dto/planificar-auditoria.dto';
+import { NestedTreeControl } from '@angular/cdk/tree';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
+interface FoodNode {
+  name: string;
+  children?: FoodNode[];
+}
 
+const TREE_DATA: FoodNode[] = [
+  {
+    name: 'Fruit',
+    children: [{ name: 'Apple' }, { name: 'Banana' }, { name: 'Fruit loops' }],
+  },
+  {
+    name: 'Vegetables',
+    children: [
+      {
+        name: 'Green',
+        children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
+      },
+      {
+        name: 'Orange',
+        children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+      },
+    ],
+  },
+];
 @Component({
   selector: 'planificar-auditoria',
   templateUrl: './planificar-auditoria.component.html',
@@ -51,7 +82,7 @@ export class PlanificarAuditoriaComponent implements OnInit {
 
   Guardando = false;
 
-  @Input("idAuditoria") idauditoria!: string;
+  @Input('idAuditoria') idauditoria!: string;
   auditoriaExistente!: Auditoria;
 
   // buscandoAuditoria: boolean = true;
@@ -61,7 +92,9 @@ export class PlanificarAuditoriaComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _snackBar: MatSnackBar,
     private modalCargandoService: ModalCargandoService
-  ) { }
+  ) {
+    this.dataSource.data = TREE_DATA;
+  }
 
   isMobileLayout = false;
   maxNumberArray = (array: number[]) =>
@@ -248,12 +281,11 @@ export class PlanificarAuditoriaComponent implements OnInit {
         // this.openSnackBar('Cambios guardados', 'Aceptar');
         console.log(res);
         this.Guardando = false;
-
       });
   }
   onCancel() {
     // console.log(this.formGroup);
-    this.router.navigate(['/', 'principal']);
+    this.router.navigate(['/']);
   }
 
   Subelementos = '';
@@ -281,4 +313,9 @@ export class PlanificarAuditoriaComponent implements OnInit {
     this.AuxUsuarios.push(this.UsuariosRes);
   }
 
+  treeControl = new NestedTreeControl<FoodNode>((node) => node.children);
+  dataSource = new MatTreeNestedDataSource<FoodNode>();
+
+  hasChild = (_: number, node: FoodNode) =>
+    !!node.children && node.children.length > 0;
 }
