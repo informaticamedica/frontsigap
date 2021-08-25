@@ -1,22 +1,37 @@
 <!-- <mat-spinner class="spinner2" *ngIf="Guardando"></mat-spinner> -->
 
 <div class="container mt-3" *ngIf="!auditoriaExistente">
-  <div style="display: flex; justify-content: space-between">
-    <h1>
-      <span>Nueva Auditoría</span>
-    </h1>
-    <button mat-raised-button color="primary" color="warn" (click)="onCancel()">
-      Cancelar
-    </button>
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      (click)="onSave()"
-      [disabled]="!form.valid"
-    >
-      Guardar
-    </button>
+  <div>
+    <div class="row">
+      <div class="col">
+        <h1>
+          <span>Nueva Auditoría</span>
+        </h1>
+      </div>
+      <div class="col col-1">
+        <button
+          class="mx-2"
+          mat-raised-button
+          color="primary"
+          color="warn"
+          (click)="onCancel()"
+        >
+          Cancelar
+        </button>
+      </div>
+      <div class="col col-1">
+        <button
+          class="mx-2"
+          mat-raised-button
+          color="primary"
+          type="submit"
+          (click)="onSave()"
+          [disabled]="!form.valid"
+        >
+          Guardar
+        </button>
+      </div>
+    </div>
   </div>
   <!-- <mat-toolbar style="display: flex; justify-content: space-between">
     <span>Nueva Auditoría</span>
@@ -25,6 +40,7 @@
   <form
     [formGroup]="form"
     style="
+      margin-top: 2rem;
       margin-left: auto;
       margin-right: auto;
       left: 0;
@@ -111,7 +127,7 @@
       </mat-select>
     </mat-form-field>
     <br />
-    <mat-form-field style="width: 50%">
+    <mat-form-field style="width: 100%">
       <mat-label>Observaciones</mat-label>
       <textarea
         matInput
@@ -165,7 +181,7 @@
     </mat-form-field> -->
     <br />
 
-    <h2>Equipo Auditor</h2>
+    <h2>Equipo de Auditores</h2>
     <mat-tree
       [dataSource]="dataSource"
       [treeControl]="treeControl"
