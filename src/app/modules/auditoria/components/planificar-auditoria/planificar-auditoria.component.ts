@@ -79,11 +79,13 @@ export class PlanificarAuditoriaComponent implements OnInit {
   AuxUsuarios: Usuarios[][] = [];
   AreasRes: Areas[] = [];
   Area: Areas[] = [];
-
+  ArbolSecciones: any[] = [];
   Guardando = false;
 
   @Input('idAuditoria') idauditoria!: string;
   auditoriaExistente!: Auditoria;
+  UsuariosNombreCompleto: string[] = [];
+  UsuariosNombreAbreviado: string[] = [];
 
   // buscandoAuditoria: boolean = true;
   constructor(
@@ -140,6 +142,27 @@ export class PlanificarAuditoriaComponent implements OnInit {
           this.TipoInforme = res.TipoInforme;
           this.Usuarios = res.Usuarios;
           this.UsuariosRes = res.Usuarios;
+          this.UsuariosNombreCompleto = res.Usuarios.map((u) =>
+            this.NombreCompleto(u)
+          );
+          this.UsuariosNombreAbreviado = res.Usuarios.map((u) =>
+            this.NombreAbreviado(u)
+          );
+          this.ArbolSecciones = res.arbolSecciones.map((a) => {
+            return {
+              name: a.descripcion,
+              Editables: a.Editables,
+              idseccion: a.idseccion,
+              children: a.SubSecciones.map((s: any) => {
+                return {
+                  name: s.descripcion,
+                  Editables: s.Editables,
+                  idseccion: s.idseccion,
+                };
+              }),
+            };
+          });
+          this.dataSource.data = this.ArbolSecciones;
           this.AuxUsuarios.push(res.Usuarios);
           console.log('this.AuxUsuarios', this.AuxUsuarios);
 
@@ -155,6 +178,34 @@ export class PlanificarAuditoriaComponent implements OnInit {
 
       this.iniForm();
     }
+  }
+
+  NombreCompleto(u: Usuarios) {
+    return `${u.legajo} - ${u.nombre} ${u.apellido} (${u.Profesion})`;
+  }
+  NombreAbreviado(u: Usuarios) {
+    return `${u.nombre.toUpperCase()[0]}. ${u.apellido}`;
+  }
+
+  EquipoAuditor: any[] = [];
+  addEquipoAuditor(
+    nombreCompletoUsuarios: string[],
+    seccion: string,
+    idseccion: number
+  ): void {
+    const usuarios = nombreCompletoUsuarios;
+    const idusuarios = nombreCompletoUsuarios.map((u) => {
+      return this.UsuariosRes.find((ur) => this.NombreCompleto(ur) == u)
+        ?.idusuario;
+    });
+    this.EquipoAuditor.find((a) => a.seccion == seccion) ??
+      this.EquipoAuditor.push({ usuarios, seccion, idseccion, idusuarios });
+
+    this.EquipoAuditor = this.EquipoAuditor.map((i) => {
+      if (i.seccion == seccion) {
+        return { usuarios, seccion, idseccion, idusuarios };
+      } else return i;
+    });
   }
 
   openSnackBar(message: string, action: string) {
@@ -216,12 +267,14 @@ export class PlanificarAuditoriaComponent implements OnInit {
     this.form.get('TipoInforme')!.valueChanges.subscribe((value) => {
       // console.log('value', value);
       // value = value.toLocaleLowerCase();
-      const tipoInforme = this.TipoInforme.filter((a) => a.idguia == value)[0];
+      const tipoInforme = this.TipoInforme.filter(
+        (a) => a.idinforme == value
+      )[0];
       console.log('tipoInforme', tipoInforme);
 
       this.Area = this.AreasRes.filter(
         (a) =>
-          a.idguia == tipoInforme.idguia &&
+          a.idguia == tipoInforme.idinforme &&
           a.versionguia == tipoInforme.versionactual
       );
       console.log('this.AreasRes', this.AreasRes);
@@ -274,6 +327,7 @@ export class PlanificarAuditoriaComponent implements OnInit {
       .guardarDatosApi('planificarauditoria', {
         ...this.form.value,
         VERSIONGUIA: this.TipoInforme[0].versionactual,
+        EquipoAuditor: this.EquipoAuditor,
       })
       .subscribe((res) => {
         this.modalCargandoService.stopLoading();
@@ -286,6 +340,7 @@ export class PlanificarAuditoriaComponent implements OnInit {
   onCancel() {
     // console.log(this.formGroup);
     this.router.navigate(['/']);
+    // console.log('EquipoAuditor', this.EquipoAuditor);
   }
 
   Subelementos = '';

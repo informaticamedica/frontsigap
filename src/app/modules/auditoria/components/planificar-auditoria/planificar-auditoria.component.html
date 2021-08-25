@@ -104,7 +104,7 @@
       <mat-select formControlName="TipoInforme">
         <mat-option
           *ngFor="let plantilla of TipoInforme"
-          value="{{ plantilla.idguia }}"
+          value="{{ plantilla.idinforme }}"
         >
           {{ plantilla.descripcion }}
         </mat-option>
@@ -165,7 +165,7 @@
     </mat-form-field> -->
     <br />
 
-    <mat-label>Equipo Auditor</mat-label>
+    <h2>Equipo Auditor</h2>
     <mat-tree
       [dataSource]="dataSource"
       [treeControl]="treeControl"
@@ -177,11 +177,19 @@
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
         <div class="container">
           <div class="row">
-            <div class="col col-md-2">
+            <div class="col col-md-3 arbol">
               {{ node.name }}
             </div>
             <div class="col">
-              <app-generic-chips></app-generic-chips>
+              <app-generic-chips
+                *ngIf="node.Editables"
+                [dataList]="UsuariosNombreCompleto"
+                [dataChip]="UsuariosNombreAbreviado"
+                (dataSelected)="
+                  addEquipoAuditor($event, node.name, node.idseccion)
+                "
+              >
+              </app-generic-chips>
             </div>
           </div>
         </div>
@@ -202,9 +210,17 @@
           </button>
           <div class="container">
             <div class="row">
-              <div class="col col-md-2">{{ node.name }}</div>
+              <div class="col col-md-3 arbol">{{ node.name }}</div>
               <div class="col">
-                <app-generic-chips></app-generic-chips>
+                <app-generic-chips
+                  *ngIf="node.Editables"
+                  [dataList]="UsuariosNombreCompleto"
+                  [dataChip]="UsuariosNombreAbreviado"
+                  (dataSelected)="
+                    addEquipoAuditor($event, node.name, node.idseccion)
+                  "
+                >
+                </app-generic-chips>
               </div>
             </div>
           </div>
