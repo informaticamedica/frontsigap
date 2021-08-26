@@ -1,33 +1,72 @@
 <!-- <mat-spinner class="spinner2" *ngIf="Guardando"></mat-spinner> -->
 
 <div class="container mt-3" *ngIf="!auditoriaExistente">
-  <mat-toolbar style="display: flex; justify-content: space-between">
-    <span>Nueva Auditoría</span>
-    <div>
-      <button mat-button color="warn" (click)="onCancel()">Cancelar</button>
-      <button mat-button type="submit" (click)="onSave()" [disabled]="!form.valid">
-        Guardar
-      </button>
+  <div>
+    <div class="row">
+      <div class="col">
+        <h1>
+          <span>Nueva Auditoría</span>
+        </h1>
+      </div>
+      <div class="col col-1">
+        <button
+          class="mx-2"
+          mat-raised-button
+          color="primary"
+          color="warn"
+          (click)="onCancel()"
+        >
+          Cancelar
+        </button>
+      </div>
+      <div class="col col-1">
+        <button
+          class="mx-2"
+          mat-raised-button
+          color="primary"
+          type="submit"
+          (click)="onSave()"
+          [disabled]="!form.valid"
+        >
+          Guardar
+        </button>
+      </div>
     </div>
-  </mat-toolbar>
+  </div>
+  <!-- <mat-toolbar style="display: flex; justify-content: space-between">
+    <span>Nueva Auditoría</span>
+  </mat-toolbar> -->
 
-  <form [formGroup]="form" style="
+  <form
+    [formGroup]="form"
+    style="
+      margin-top: 2rem;
       margin-left: auto;
       margin-right: auto;
       left: 0;
       right: 0;
       text-align: left;
-    ">
+    "
+  >
     <mat-form-field style="width: 70%">
       <mat-label>Prestador</mat-label>
       <input matInput [matAutocomplete]="auto" formControlName="prestadores" />
-      <mat-autocomplete panelWidth="fit-content" #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
-        <mat-option *ngFor="let state of Prestadores.slice(0, 5)" value="{{ state.idprestador }}">
-          <div style="
+      <mat-autocomplete
+        panelWidth="fit-content"
+        #auto="matAutocomplete"
+        [displayWith]="displayFn.bind(this)"
+      >
+        <mat-option
+          *ngFor="let state of Prestadores.slice(0, 5)"
+          value="{{ state.idprestador }}"
+        >
+          <div
+            style="
               display: flex;
               justify-content: space-between;
               align-content: flex-start;
-            ">
+            "
+          >
             <div [ngStyle]="{ width: maxLenghtPrest / 2.4 + 'rem;' }">
               {{ state.Prestador }}
             </div>
@@ -47,12 +86,21 @@
 
     <mat-form-field>
       <mat-label>Fecha:</mat-label>
-      <input matInput type="date" formControlName="fechainicio" placeholder=" " />
+      <input
+        matInput
+        type="date"
+        formControlName="fechainicio"
+        placeholder=" "
+      />
     </mat-form-field>
     <mat-form-field>
       <mat-label>Ingresa la fecha de auditoria</mat-label>
       <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-        <input matStartDate formControlName="fechainicio" placeholder="Inicio" />
+        <input
+          matStartDate
+          formControlName="fechainicio"
+          placeholder="Inicio"
+        />
         <input matEndDate formControlName="fechafin" placeholder="Fin" />
       </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -70,16 +118,24 @@
       <mat-label>Tipo de informe</mat-label>
 
       <mat-select formControlName="TipoInforme">
-        <mat-option *ngFor="let plantilla of TipoInforme" value="{{ plantilla.idguia }}">
+        <mat-option
+          *ngFor="let plantilla of TipoInforme"
+          value="{{ plantilla.idinforme }}"
+        >
           {{ plantilla.descripcion }}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <br />
-    <mat-form-field style="width: 50%">
+    <mat-form-field style="width: 100%">
       <mat-label>Observaciones</mat-label>
-      <textarea matInput placeholder="Ej. matricula del vehículo" maxlength="200" rows="4"
-        formControlName="observaciones"></textarea>
+      <textarea
+        matInput
+        placeholder="Ej. matricula del vehículo"
+        maxlength="200"
+        rows="4"
+        formControlName="observaciones"
+      ></textarea>
     </mat-form-field>
     <!-- <mat-form-field>
       <mat-label>Modalidad</mat-label>
@@ -125,15 +181,92 @@
     </mat-form-field> -->
     <br />
 
-    <mat-label>Equipo Auditor</mat-label>
+    <h2>Equipo de Auditores</h2>
+    <mat-tree
+      [dataSource]="dataSource"
+      [treeControl]="treeControl"
+      class="example-tree"
+    >
+      <!-- This is the tree node template for leaf nodes -->
+      <!-- There is inline padding applied to this node using styles.
+        This padding value depends on the mat-icon-button width. -->
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+        <div class="container">
+          <div class="row">
+            <div class="col col-md-3 arbol">
+              {{ node.name }}
+            </div>
+            <div class="col">
+              <app-generic-chips
+                *ngIf="node.Editables"
+                [dataList]="UsuariosNombreCompleto"
+                [dataChip]="UsuariosNombreAbreviado"
+                (dataSelected)="
+                  addEquipoAuditor($event, node.name, node.idseccion)
+                "
+              >
+              </app-generic-chips>
+            </div>
+          </div>
+        </div>
+      </mat-tree-node>
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+        <div class="mat-tree-node">
+          <button
+            mat-icon-button
+            matTreeNodeToggle
+            [attr.aria-label]="'Toggle ' + node.name"
+          >
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{
+                treeControl.isExpanded(node) ? "expand_more" : "chevron_right"
+              }}
+            </mat-icon>
+          </button>
+          <div class="container">
+            <div class="row">
+              <div class="col col-md-3 arbol">{{ node.name }}</div>
+              <div class="col">
+                <app-generic-chips
+                  *ngIf="node.Editables"
+                  [dataList]="UsuariosNombreCompleto"
+                  [dataChip]="UsuariosNombreAbreviado"
+                  (dataSelected)="
+                    addEquipoAuditor($event, node.name, node.idseccion)
+                  "
+                >
+                </app-generic-chips>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- There is inline padding applied to this div using styles.
+              This padding value depends on the mat-icon-button width.  -->
+        <div
+          [class.example-tree-invisible]="!treeControl.isExpanded(node)"
+          role="group"
+        >
+          <ng-container matTreeNodeOutlet></ng-container>
+        </div>
+      </mat-nested-tree-node>
+    </mat-tree>
+    <!--
     <button mat-icon-button type="button" (click)="addSubElemento()">
       <mat-icon>add</mat-icon>
     </button>
     <div formArrayName="integrantes">
-      <div *ngFor="let item of getSubelementos.controls; let pointIndex = index" [formGroupName]="pointIndex">
+      <div
+        *ngFor="let item of getSubelementos.controls; let pointIndex = index"
+        [formGroupName]="pointIndex"
+      >
         <mat-grid-list cols="{{ 16 }}" rowHeight="55px" gutterSize="5px">
           <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <a mat-icon-button type="button" (click)="deleteSubElemento(pointIndex)">
+            <a
+              mat-icon-button
+              type="button"
+              (click)="deleteSubElemento(pointIndex)"
+            >
               <mat-icon>remove</mat-icon>
             </a>
           </mat-grid-tile>
@@ -141,7 +274,10 @@
             <mat-form-field style="text-align: left">
               <mat-label> Area </mat-label>
               <mat-select formControlName="areas">
-                <mat-option *ngFor="let SubOpc of Area" value="{{ SubOpc.idareaauditoria }}">
+                <mat-option
+                  *ngFor="let SubOpc of Area"
+                  value="{{ SubOpc.idareaauditoria }}"
+                >
                   {{ SubOpc.descripcion }}
                 </mat-option>
               </mat-select>
@@ -151,9 +287,20 @@
           <mat-grid-tile [colspan]="5" [rowspan]="1">
             <mat-form-field class="example-full-width">
               <mat-label>Usuario</mat-label>
-              <input matInput [matAutocomplete]="auto2" formControlName="usuarios" />
-              <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayFn2.bind(this)" panelWidth="fit-content">
-                <mat-option *ngFor="let usuario of AuxUsuarios[pointIndex]" value="{{ usuario.idusuario }}">
+              <input
+                matInput
+                [matAutocomplete]="auto2"
+                formControlName="usuarios"
+              />
+              <mat-autocomplete
+                #auto2="matAutocomplete"
+                [displayWith]="displayFn2.bind(this)"
+                panelWidth="fit-content"
+              >
+                <mat-option
+                  *ngFor="let usuario of AuxUsuarios[pointIndex]"
+                  value="{{ usuario.idusuario }}"
+                >
                   <span>{{ usuario.apellido + " , " + usuario.nombre }}</span> |
                   <small>Legajo: {{ usuario.legajo }}</small> |
                   <small>Profesion/es: {{ usuario.Profesion }}</small>
@@ -162,26 +309,15 @@
             </mat-form-field>
           </mat-grid-tile>
 
-          <!-- <mat-grid-tile [colspan]="5" [rowspan]="1">
-            <mat-slide-toggle
-              [color]="['primary']"
-              class="container"
-              formControlName="responsable"
-            >
-              Responsable
-            </mat-slide-toggle>
-          </mat-grid-tile> -->
         </mat-grid-list>
       </div>
-    </div>
+    </div> -->
 
     <br />
   </form>
 </div>
 
 <div class="container mt-3" *ngIf="auditoriaExistente">
-
-
   la auditoría ya fue planificada
-  {{auditoriaExistente | json}}
+  {{ auditoriaExistente | json }}
 </div>

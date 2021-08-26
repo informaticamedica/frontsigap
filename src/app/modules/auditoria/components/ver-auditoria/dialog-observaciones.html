@@ -1,0 +1,73 @@
+<h2 mat-dialog-title>Registrar observación</h2>
+<mat-dialog-content class="mat-typography">
+  <div class="container">
+    <hr />
+    <div class="row">
+      <div class="col-md-3">
+        <h3>Sección:</h3>
+      </div>
+      <div class="col">{{data.seccion}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h3>Item:</h3>
+      </div>
+      <div class="col">{{data.item?.descripcion}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h3>Observación:</h3>
+      </div>
+      <div class="col">{{data.item?.Observacion}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h3>Recomendación:</h3>
+      </div>
+      <div class="col">{{data.item?.Recomendacion}}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h3>Normativas:</h3>
+      </div>
+      <div class="col">{{data.item?.observaciones?.normativa}}</div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-3">
+        <h3>Estado:</h3>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-select>
+            <mat-option
+              *ngFor="let estado of EstadosObservaciones"
+              [value]="estado.value"
+            >
+              {{estado.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h3>Comentarios:</h3>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" style="width: 100%">
+          <textarea matInput></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <h3>Historial:</h3>
+    <tabla-generica
+      [data]="Datos"
+      (onClick)="auditoria($event)"
+    ></tabla-generica>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Guardar</button>
+</mat-dialog-actions>

@@ -1,6 +1,6 @@
 export interface TipoInforme {
-    idguia: string;
-    versionactual: string;
-    idareaauditoria: string;
-    descripcion: string;
+  idinforme: string;
+  versionactual: string;
+  idareaauditoria: string;
+  descripcion: string;
 }
