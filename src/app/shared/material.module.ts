@@ -26,6 +26,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
+
 @NgModule({
   imports: [
     MatSelectModule,
@@ -56,6 +58,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatChipsModule,
     FormsModule,
     ReactiveFormsModule,
+    MatMenuModule,
   ],
   exports: [
     MatSelectModule,
@@ -86,6 +89,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatChipsModule,
     FormsModule,
     ReactiveFormsModule,
+    MatMenuModule,
   ],
 })
 export class MaterialModule {}

@@ -93,7 +93,7 @@
             [formGroupName]="ELPROBLEMA(item.iditem)"
           >
             <div class="row">
-              <div class="col col-lg-10">
+              <div class="col col-lg-9">
                 {{ item.iditem }} -
                 {{ item.descripcion }}
               </div>
@@ -107,7 +107,7 @@
                   Observación
                 </button>
               </div> -->
-              <div class="col col-lg-2">
+              <div class="col col-lg-3">
                 <mat-radio-group
                   *ngIf="item.componente == 'radio'"
                   aria-label="Select an option"
@@ -116,26 +116,53 @@
                   <!-- [disabled]="!completarGuia" -->
 
                   <!-- <div class="container"> -->
-                  <div class="row">
-                    <div
-                      class="col col-md-6"
-                      *ngFor="let tipo of item.tipoEval"
-                    >
-                      <mat-radio-button
-                        [value]="tipo.descripcion"
-                        *ngIf="tipo.idvalor == 2"
-                        (change)="openDialog(inf.descripcion, item)"
+                  <div class="row" style="flex-wrap: nowrap">
+                    <div *ngFor="let tipo of item.tipoEval">
+                      <div class="col" *ngIf="tipo.principal">
+                        <mat-radio-button
+                          [value]="tipo.descripcion"
+                          *ngIf="tipo.idvalor == 2"
+                          (change)="openDialog(inf.descripcion, item)"
+                        >
+                          {{ tipo.descripcion }}
+                          &nbsp; &nbsp; &nbsp;
+                        </mat-radio-button>
+                        <mat-radio-button
+                          [value]="tipo.descripcion"
+                          *ngIf="tipo.idvalor == 1"
+                        >
+                          {{ tipo.descripcion }}
+                          &nbsp; &nbsp; &nbsp;
+                        </mat-radio-button>
+                      </div>
+                    </div>
+                    <div class="col col-md-2">
+                      <button
+                        mat-icon-button
+                        [matMenuTriggerFor]="menu"
+                        aria-label="Menu"
+                        [disabled]="!completarGuia"
                       >
-                        {{ tipo.descripcion }}
-                        &nbsp; &nbsp; &nbsp;
-                      </mat-radio-button>
-                      <mat-radio-button
-                        [value]="tipo.descripcion"
-                        *ngIf="tipo.idvalor == 1"
-                      >
-                        {{ tipo.descripcion }}
-                        &nbsp; &nbsp; &nbsp;
-                      </mat-radio-button>
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item [disabled]="!completarGuia">
+                          <mat-icon>cancel</mat-icon>
+                          <span>No aplica</span>
+                        </button>
+                        <button mat-menu-item [disabled]="!completarGuia">
+                          <mat-icon>file_copy</mat-icon>
+                          <span>Documentacion pendiente</span>
+                        </button>
+                        <button mat-menu-item [disabled]="!completarGuia">
+                          <mat-icon>photo</mat-icon>
+                          <span>Agregar imagen</span>
+                        </button>
+                        <button mat-menu-item [disabled]="!completarGuia">
+                          <mat-icon>create</mat-icon>
+                          <span>Comentario</span>
+                        </button>
+                      </mat-menu>
                     </div>
                   </div>
                   <!-- </div> -->
