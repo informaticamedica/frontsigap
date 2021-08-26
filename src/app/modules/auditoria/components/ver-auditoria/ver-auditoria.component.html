@@ -122,7 +122,6 @@
                         <mat-radio-button
                           [value]="tipo.descripcion"
                           *ngIf="tipo.idvalor == 2"
-                          (change)="openDialog(inf.descripcion, item)"
                         >
                           {{ tipo.descripcion }}
                           &nbsp; &nbsp; &nbsp;
@@ -158,9 +157,13 @@
                           <mat-icon>photo</mat-icon>
                           <span>Agregar imagen</span>
                         </button>
-                        <button mat-menu-item [disabled]="!completarGuia">
+                        <button
+                          mat-menu-item
+                          [disabled]="!completarGuia"
+                          (click)="openDialog(inf.descripcion, item)"
+                        >
                           <mat-icon>create</mat-icon>
-                          <span>Comentario</span>
+                          <span>Gestionar observación</span>
                         </button>
                       </mat-menu>
                     </div>

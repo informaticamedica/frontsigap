@@ -65,6 +65,7 @@ export class VerAuditoriaComponent implements OnInit {
         seccion,
         item,
       },
+      width: '65%',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
