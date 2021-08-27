@@ -93,8 +93,21 @@
             [formGroupName]="ELPROBLEMA(item.iditem)"
           >
             <div class="row">
-              <div class="col col-lg-9">
-                {{ item.iditem }} -
+              <div class="col" *ngIf="item.idfuente === 1">
+                <mat-form-field appearance="outline" style="width: 100%">
+                  <!-- <input matInput /> -->
+                  <textarea
+                    matInput
+                    placeholder="Ej. matricula del vehículo"
+                    maxlength="500"
+                    rows="5"
+                    [disabled]="!completarGuia"
+                    [value]="item.texto"
+                  ></textarea>
+                </mat-form-field>
+              </div>
+              <div class="col col-lg-9" *ngIf="item.idfuente === 3">
+                <!-- {{ item.iditem }} - -->
                 {{ item.descripcion }}
               </div>
               <!-- <div class="col-2">
@@ -107,7 +120,7 @@
                   Observación
                 </button>
               </div> -->
-              <div class="col col-lg-3">
+              <div class="col col-lg-3" *ngIf="item.idfuente === 3">
                 <mat-radio-group
                   *ngIf="item.componente == 'radio'"
                   aria-label="Select an option"
@@ -171,7 +184,7 @@
                   <!-- </div> -->
                 </mat-radio-group>
                 <div *ngIf="item.componente == 'input'">
-                  <mat-form-field appearance="fill">
+                  <mat-form-field appearance="outline">
                     <!-- <input matInput /> -->
                     <input matInput [disabled]="!completarGuia" />
                   </mat-form-field>
@@ -214,12 +227,24 @@
             >
               <!-- asd: {{ ELPROBLEMA(item.iditem) }} -->
               <div class="row">
-                <div class="col">
-                  {{ item.iditem }} -
+                <div class="col" *ngIf="item.idfuente === 1">
+                  <mat-form-field appearance="outline" style="width: 100%">
+                    <!-- <input matInput /> -->
+                    <textarea
+                      matInput
+                      placeholder="Ej. matricula del vehículo"
+                      maxlength="500"
+                      rows="5"
+                      [disabled]="!completarGuia"
+                      [value]="item.texto"
+                    ></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="col col-lg-9" *ngIf="item.idfuente === 3">
+                  <!-- {{ item.iditem }} - -->
                   {{ item.descripcion }}
                 </div>
-
-                <div class="col col-lg-2">
+                <div class="col col-lg-3" *ngIf="item.idfuente === 3">
                   <mat-radio-group
                     *ngIf="item.componente == 'radio'"
                     aria-label="Select an option"

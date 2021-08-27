@@ -1,41 +1,87 @@
 <div class="row justify-content-center mt-3">
   <div class="col-12 text-center align-self-center">
-    <h1 [ngStyle]="{'color': '#'+auditoria?.colorEstado}">{{auditoria?.EstadoAuditoria}}</h1>
+    <!-- <h1 [ngStyle]="{ color: '#' + auditoria?.colorEstado }">
+      {{ auditoria?.EstadoAuditoria }}
+    </h1> -->
   </div>
-  <button class=" col-auto mr-3" *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_AUDITORIA_PUBLICADA)" mat-raised-button
-    color="primary" (click)="cambiarEstadoAuditoria(Constantes.ESTADO_AUDITORIA_PUBLICADA)">
+  <button
+    class="col-auto mr-3"
+    *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_AUDITORIA_PUBLICADA)"
+    mat-raised-button
+    color="primary"
+    (click)="cambiarEstadoAuditoria(Constantes.ESTADO_AUDITORIA_PUBLICADA)"
+  >
     Publicar auditoría
   </button>
-  <button class=" col-auto mr-3" *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_AUDITORIA_CANCELADA)" mat-raised-button
-    color="warn" (click)="cambiarEstadoAuditoria(Constantes.ESTADO_AUDITORIA_CANCELADA)">
+  <button
+    class="col-auto mr-3"
+    *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_AUDITORIA_CANCELADA)"
+    mat-raised-button
+    color="warn"
+    (click)="cambiarEstadoAuditoria(Constantes.ESTADO_AUDITORIA_CANCELADA)"
+  >
     Cancelar auditoría
   </button>
-  <button class=" col-auto mr-3" *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_GUIA_INICIDADA)" mat-raised-button
-    color="primary" (click)="cambiarEstadoAuditoria(Constantes.ESTADO_GUIA_INICIDADA)">
+  <button
+    class="col-auto mr-3"
+    *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_GUIA_INICIDADA)"
+    mat-raised-button
+    color="primary"
+    (click)="cambiarEstadoAuditoria(Constantes.ESTADO_GUIA_INICIDADA)"
+  >
     Empezar a completar guía
   </button>
-  <button class=" col-auto mr-3" *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_GUIA_COMPLETADA)" mat-raised-button
+  <!-- <button class=" col-auto mr-3" *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_GUIA_COMPLETADA)" mat-raised-button
     color="primary" (click)="cambiarEstadoAuditoria(Constantes.ESTADO_GUIA_COMPLETADA)">
     Finalizar la guía
-  </button>
-  <button class=" col-auto mr-3" *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_INFORME_INICIADO)" mat-raised-button
-    color="primary" (click)="cambiarEstadoAuditoria(Constantes.ESTADO_INFORME_INICIADO)">
+  </button> -->
+  <button
+    class="col-auto mr-3"
+    *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_INFORME_INICIADO)"
+    mat-raised-button
+    color="primary"
+    (click)="cambiarEstadoAuditoria(Constantes.ESTADO_INFORME_INICIADO)"
+  >
     Iniciar a conformar el informe
   </button>
-  <button class=" col-auto mr-3" *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_INFORME_CONFORMADO)" mat-raised-button
-    color="primary" (click)="cambiarEstadoAuditoria(Constantes.ESTADO_INFORME_CONFORMADO)">
+  <button
+    class="col-auto mr-3"
+    *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_INFORME_CONFORMADO)"
+    mat-raised-button
+    color="primary"
+    (click)="cambiarEstadoAuditoria(Constantes.ESTADO_INFORME_CONFORMADO)"
+  >
     Finalizar la conformación del informe
   </button>
-  <button class=" col-auto mr-3" *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_PRIMERA_REVISION_APROBADA)"
-    mat-raised-button color="primary" (click)="cambiarEstadoAuditoria(Constantes.ESTADO_PRIMERA_REVISION_APROBADA)">
+  <button
+    class="col-auto mr-3"
+    *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_PRIMERA_REVISION_APROBADA)"
+    mat-raised-button
+    color="primary"
+    (click)="
+      cambiarEstadoAuditoria(Constantes.ESTADO_PRIMERA_REVISION_APROBADA)
+    "
+  >
     Aprobar primera revisión
   </button>
-  <button class=" col-auto mr-3" *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_SEGUNDA_REVISION_APROBADA)"
-    mat-raised-button color="primary" (click)="cambiarEstadoAuditoria(Constantes.ESTADO_SEGUNDA_REVISION_APROBADA)">
+  <button
+    class="col-auto mr-3"
+    *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_SEGUNDA_REVISION_APROBADA)"
+    mat-raised-button
+    color="primary"
+    (click)="
+      cambiarEstadoAuditoria(Constantes.ESTADO_SEGUNDA_REVISION_APROBADA)
+    "
+  >
     Aprobar segunda revisión
   </button>
-  <button class=" col-auto mr-3" *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_INFORME_SUBIDO_A_GDE)" mat-raised-button
-    color="primary" (click)="cambiarEstadoAuditoria(Constantes.ESTADO_INFORME_SUBIDO_A_GDE)">
+  <button
+    class="col-auto mr-3"
+    *ngIf="puedoCambiarAlEstado(Constantes.ESTADO_INFORME_SUBIDO_A_GDE)"
+    mat-raised-button
+    color="primary"
+    (click)="cambiarEstadoAuditoria(Constantes.ESTADO_INFORME_SUBIDO_A_GDE)"
+  >
     Finalizar subida a GDE
   </button>
 </div>
