@@ -106,7 +106,12 @@
                   ></textarea>
                 </mat-form-field>
               </div>
-              <div class="col col-lg-9" *ngIf="item.idfuente === 3">
+              <div
+                class="col col-lg-9"
+                *ngIf="item.idfuente === 3"
+                [matTooltip]="item.Requisito"
+                matTooltipPosition="before"
+              >
                 <!-- {{ item.iditem }} - -->
                 {{ item.descripcion }}
               </div>
@@ -158,7 +163,11 @@
                         <mat-icon>more_vert</mat-icon>
                       </button>
                       <mat-menu #menu="matMenu">
-                        <button mat-menu-item [disabled]="!completarGuia">
+                        <button
+                          mat-menu-item
+                          [disabled]="!completarGuia"
+                          (click)="noAplica(item)"
+                        >
                           <mat-icon>cancel</mat-icon>
                           <span>No aplica</span>
                         </button>

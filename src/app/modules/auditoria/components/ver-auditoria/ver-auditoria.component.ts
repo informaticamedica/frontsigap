@@ -106,6 +106,11 @@ export class VerAuditoriaComponent implements OnInit {
     // return this.form.controls['items'] as FormArray;
   }
 
+  noAplica(item: any) {
+    console.log('item', item);
+    console.log(this.form);
+  }
+
   onSave() {
     console.log('Form', this.form.value);
     console.log(
