@@ -26,5 +26,17 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "auditorias",
+      "urls": [
+        "/auditorias123"
+      ],
+      "cacheConfig": {
+          "maxSize": 250,
+          "maxAge": "1h"
+      }
+  }
   ]
 }

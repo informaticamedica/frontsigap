@@ -12,6 +12,50 @@ import { SharedModule } from './shared/shared.module';
 import { LayoutsModule } from './core/layouts/layouts.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from '@angular/cdk/layout';
+import { DBConfig, NgxIndexedDBModule } from 'ngx-indexed-db';
+const dbConfig: DBConfig = {
+  name: 'MyDb',
+  version: 1,
+  objectStoresMeta: [{
+    store: 'auditorias',
+    storeConfig: { keyPath: 'idauditoria', autoIncrement: false },
+    storeSchema: [
+      { name: 'CUIT', keypath: 'CUIT', options: { unique: false } },
+      { name: 'EstadoAuditoria', keypath: 'EstadoAuditoria', options: { unique: false } },
+      { name: 'colorEstado', keypath: 'colorEstado', options: { unique: false } },
+      { name: 'Prestador', keypath: 'Prestador', options: { unique: false } },
+      { name: 'ProvinciaPrestador', keypath: 'ProvinciaPrestador', options: { unique: false } },
+      { name: 'UGL', keypath: 'UGL', options: { unique: false } },
+      { name: 'domicilio', keypath: 'domicilio', options: { unique: false } },
+      { name: 'email', keypath: 'email', options: { unique: false } },
+      { name: 'fechainicio', keypath: 'fechainicio', options: { unique: false } },
+      { name: 'idestadoauditoria', keypath: 'idestadoauditoria', options: { unique: false } },
+      { name: 'idguia', keypath: 'idguia', options: { unique: false } },
+      { name: 'idprovincia', keypath: 'idprovincia', options: { unique: false } },
+      { name: 'idugl', keypath: 'idugl', options: { unique: false } },
+      { name: 'localidad', keypath: 'localidad', options: { unique: false } },
+      { name: 'telefono', keypath: 'telefono', options: { unique: false } },
+      { name: 'versionguia', keypath: 'versionguia', options: { unique: false } }
+    ]
+  },
+   {
+    store: 'estados',
+    storeConfig: { keyPath: 'idestadoauditoria', autoIncrement: false },
+    storeSchema: [
+      { name: 'descripcion', keypath: 'descripcion', options: { unique: false } },
+      { name: 'color', keypath: 'color', options: { unique: false } }
+    ]
+  },
+   {
+    store: 'flujo-estados',
+    storeConfig: { keyPath: 'id', autoIncrement: true },
+    storeSchema: [
+      { name: 'idestadoauditoriadesde', keypath: 'idestadoauditoriadesde', options: { unique: false } },
+      { name: 'idestadoauditoriahasta', keypath: 'idestadoauditoriahasta', options: { unique: false } }
+    ]
+  }
+]
+};
 
 @NgModule({
   declarations: [
@@ -20,6 +64,7 @@ import { LayoutModule } from '@angular/cdk/layout';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NgxIndexedDBModule.forRoot(dbConfig),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

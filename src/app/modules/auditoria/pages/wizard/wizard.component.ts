@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Auditoria } from 'src/app/api/dto/auditoria.dto';
 import { EstadoAuditoria } from 'src/app/api/dto/estado-auditoria.dto';
 import { FlujoDeEstadosAuditoria } from 'src/app/api/dto/flujo-de-estados-auditoria.dto';
@@ -7,6 +8,7 @@ import { Informe } from 'src/app/api/dto/informe.dto';
 import { Item } from 'src/app/api/dto/item.dto';
 import { VerAuditoria } from 'src/app/api/dto/ver-auditoria.dto';
 import { DatosDbService } from 'src/app/api/services/datos.service';
+import { OnlineService } from 'src/app/core/services/online.service';
 import { ModalCargandoService } from 'src/app/shared/services/modal-cargando.service';
 import * as Constantes from 'src/app/shared/utils/constantes';
 
@@ -34,27 +36,50 @@ export class WizardComponent implements OnInit {
 
   flujoDeEstados!: FlujoDeEstadosAuditoria[];
   estados!: EstadoAuditoria[];
+  isOnline!: boolean;
   constructor(private datosService: DatosDbService, private activatedRoute: ActivatedRoute,
-    private modalCargandoService: ModalCargandoService) {
+    private modalCargandoService: ModalCargandoService, private onlineService: OnlineService,
+    private dbService: NgxIndexedDBService) {
   }
 
   ngOnInit(): void {
+    this.onlineService.isOnline$.subscribe(
+      data => {
+        this.isOnline = data;
+      }
+    );
+    this.onlineService.refrescar();
     this.modalCargandoService.startLoading();
-    this.datosService.DatosApi('auditorias/flujo-estados').subscribe(
-      (data: FlujoDeEstadosAuditoria[]) => {
-        this.flujoDeEstados = data;
-      }
-    );
-    this.datosService.DatosApi('auditorias/estados').subscribe(
-      (data: EstadoAuditoria[]) => {
-        this.estados = data;
-      }
-    );
+
+    if (this.isOnline) {
+      this.datosService.DatosApi('auditorias/flujo-estados').subscribe(
+        (data: FlujoDeEstadosAuditoria[]) => {
+          this.flujoDeEstados = data;
+          this.dbService.bulkAdd('flujo-estados', this.flujoDeEstados).subscribe(data => console.log(data));
+        }
+      );
+      this.datosService.DatosApi('auditorias/estados').subscribe(
+        (data: EstadoAuditoria[]) => {
+          this.estados = data;
+          this.dbService.bulkAdd('estados', this.estados).subscribe(data => console.log(data));
+        }
+      );
+    } else {
+      this.dbService.getAll('flujo-estados').subscribe(data => {
+        this.flujoDeEstados = data as FlujoDeEstadosAuditoria[];
+      });
+      this.dbService.getAll('estados').subscribe(data => {
+        this.estados = data as EstadoAuditoria[];
+      });
+    }
 
     this.idAuditoria = this.activatedRoute.snapshot.params.idauditoria;
     if (this.idAuditoria) {
-      //si llegó una auditoria por param es que entré a ver una ya creada
-      this.datosService
+
+      if (this.isOnline) {
+        console.log("estoy online busco via rest");
+        //si llegó una auditoria por param es que entré a ver una ya creada
+        this.datosService
         .DatosParametrosApi('auditoria', this.idAuditoria)
         .subscribe((res: VerAuditoria) => {
           this.auditoria = res.Auditoria;
@@ -62,7 +87,16 @@ export class WizardComponent implements OnInit {
           this.auditoria.colorEstado = estadoSeleccionado.color;
           this.setearPasoDelWizardSegunEstadoDeLaAuditoria(this.auditoria);
         });
-
+      } else {
+        console.log("estoy OFFLINE busco via DB");
+        this.dbService.getByKey('auditorias', this.idAuditoria).subscribe((data) => {
+          let auditoria = data as VerAuditoria;
+          this.auditoria = auditoria.Auditoria;
+          let estadoSeleccionado = this.estados.filter(estado => estado.idestadoauditoria === this.auditoria.idestadoauditoria)[0];
+          this.auditoria.colorEstado = estadoSeleccionado.color;
+          this.setearPasoDelWizardSegunEstadoDeLaAuditoria(this.auditoria);
+        });
+      }
     } else {
       this.setearPasoDelWizardSegunEstadoDeLaAuditoria();
       this.modalCargandoService.stopLoading();
